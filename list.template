@@ -1,0 +1,102 @@
+#include "list.h"
+
+
+namespace echin_list
+{
+   
+    template<class Item>
+    void list<Item>::erase_all()
+    {
+    while(!A.empty())
+        {subtract();}
+        ;}
+
+
+    template<class Item>
+    void list<Item>::addition(const Item& entry) //add an entry into linked list
+    {
+        A.push(entry);
+    }
+    
+    template<class Item>
+    void list<Item>::insert(const Item& entry, const size_type& position) //insert an item/link at a specific position
+    {
+        echin_stack::stack<Item> second;
+        size_type size;
+        for(size = 1; size < position; size++)
+        {
+            second.push(A.pop());
+        }
+        A.push(entry);
+        while(!second.empty())
+        {A.push(second.pop());}
+        
+    }
+
+
+    template<class Item>
+    void list<Item>::subtract()// removes the content at the top of the list
+    {
+        A.pop();
+     }
+
+    template<class Item>
+    void list<Item>::remove(const size_type& position) //remove item at a specific position
+    {
+    echin_stack::stack<Item> second;
+        size_type size;
+        
+    if(position == 1)
+    {
+    A.pop();
+    }
+
+    else
+        for(size = 0; size <= position-2; size++)
+        {
+            second.push(A.pop());
+        }
+        A.pop();//removes that entry at position
+        while(!second.empty())//pushes back the other entry on top of the deleted entry
+        {A.push(second.pop());}
+    }
+    
+    template<class Item>
+    typename list<Item>::size_type list<Item>::count() //count the number of items in the list
+    {
+        echin_stack::stack<Item> second;
+        
+        size_type count = 0; 
+        while(!A.empty())
+        {
+        second.push(A.pop());
+        ++count ;
+        }
+        while(!second.empty())
+        {A.push(second.pop());}
+        return count; //I know that this is really inefficient, but at the moment, I cannot figure out a simpler solution, unless I use an iterator
+        }
+        
+
+    template<class Item>
+    Item& list<Item>::view(const size_type& position) //show the item at a certain position
+    {
+        echin_stack::stack<Item> second;
+        size_type size;
+        for(size = 0; size < position-1; size++)
+        {
+            second.push(A.pop());
+        }
+        Item t = A.pop();
+        A.push(t);
+        while(!second.empty())
+        {A.push(second.pop());}
+        return t;
+    }
+
+    template<class Item>
+    Item& list<Item>::head() //shows what at the head of the linked list
+    {
+    return A.top();
+    }
+ }       
